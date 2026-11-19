@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Consulta de resultados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap">
+<style>
+:root{
+  --bg:#f4f6f9; --surface:#fff; --surface-2:#eef1f6; --ink:#17202e; --ink-2:#4d5869; --ink-3:#7f8898; --line:#dde2ea;
+  --pri:#164a8a; --top:#164a8a; --pri-soft:#e4ecf7;
+  --bajo:#b93a2a; --bajo-bg:#fbe6e2; --basico:#a8690f; --basico-bg:#fbefd9; --alto:#23744a; --alto-bg:#dff1e6; --sup:#164a8a; --sup-bg:#e4ecf7;
+  --shadow:0 8px 30px rgba(16,30,54,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161e; --surface:#19202b; --surface-2:#222b38; --ink:#e8ecf2; --ink-2:#b0b9c6; --ink-3:#7d8796; --line:#2d3746;
+    --pri:#7fb0ea; --top:#0e2747; --pri-soft:#1d3047;
+    --bajo:#f08b7b; --bajo-bg:#3a211d; --basico:#e8b860; --basico-bg:#352a15; --alto:#78c99b; --alto-bg:#1a3326; --sup:#7fb0ea; --sup-bg:#1d3047;
+    --shadow:0 8px 30px rgba(0,0,0,.4); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+    --bg:#11161e; --surface:#19202b; --surface-2:#222b38; --ink:#e8ecf2; --ink-2:#b0b9c6; --ink-3:#7d8796; --line:#2d3746;
+    --pri:#7fb0ea; --top:#0e2747; --pri-soft:#1d3047;
+    --bajo:#f08b7b; --bajo-bg:#3a211d; --basico:#e8b860; --basico-bg:#352a15; --alto:#78c99b; --alto-bg:#1a3326; --sup:#7fb0ea; --sup-bg:#1d3047;
+    --shadow:0 8px 30px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Lato",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--top);color:#fff}
+header .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.brand{display:flex;flex-direction:column;line-height:1.2;min-width:0;margin-right:auto}
+.brand b{letter-spacing:.06em}
+.brand span{font-size:13px;opacity:.85}
+.iconbtn{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:38px;height:38px;cursor:pointer;font-size:18px;flex:none}
+.hero{padding:32px 0 8px}
+h1{font-size:clamp(24px,5vw,32px);line-height:1.15;margin:0 0 6px;font-weight:900;text-wrap:balance}
+.sub{color:var(--ink-2);margin:0 0 20px}
+.search{position:relative}
+.search svg{position:absolute;left:14px;top:50%;width:20px;height:20px;transform:translateY(-50%);stroke:var(--ink-3)}
+.search input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 14px 14px 44px;font-size:17px;box-shadow:var(--shadow)}
+.search input:focus{outline:2px solid var(--pri);outline-offset:0;border-color:transparent}
+.hint{font-size:14px;color:var(--ink-3);margin:10px 2px 0;min-height:1.5em}
+.list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.list button{width:100%;text-align:left;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+.list button:hover{border-color:var(--pri)}
+.list .nm{font-weight:700;flex:1;min-width:0}
+.list .gr{font-size:14px;color:var(--ink-2);white-space:nowrap}
+mark{background:var(--pri-soft);color:inherit;border-radius:3px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin:20px 0 32px;overflow:hidden}
+.ch{padding:20px 20px 16px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ch h2{margin:4px 0 12px;font-size:22px;line-height:1.2}
+.tot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.big{font-size:44px;font-weight:900;line-height:1}
+.big small{font-size:16px;font-weight:400;color:var(--ink-3)}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:14px;font-weight:700}
+.lv-Bajo{background:var(--bajo-bg);color:var(--bajo)}
+.lv-Básico{background:var(--basico-bg);color:var(--basico)}
+.lv-Alto{background:var(--alto-bg);color:var(--alto)}
+.lv-Superior{background:var(--sup-bg);color:var(--sup)}
+.tsub{font-size:14px;color:var(--ink-2)}
+.rows{padding:6px 20px 14px}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .an{font-weight:700}
+.row .rt{text-align:right;white-space:nowrap}
+.row .rt b{font-size:18px}
+.bar{grid-column:1/-1;height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.muted{color:var(--ink-3);font-size:14px}
+.cf{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:14px 20px;background:var(--surface-2);font-size:14px;color:var(--ink-2)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:700}
+.back{border:0;background:none;color:var(--pri);cursor:pointer;padding:0;font-weight:700;margin-top:20px}
+footer{color:var(--ink-3);font-size:13px;padding:8px 0 32px}
+@media print{
+  header,.hero,.back,.cf .btn,footer{display:none!important}
+  body{background:#fff;color:#000}
+  .card{box-shadow:none;border-color:#bbb}
+  .bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><b>CESUM</b><span>Resultados · IV periodo 2026</span></div>
+  <button class="iconbtn" id="theme" type="button" aria-label="Cambiar tema claro u oscuro">◐</button>
+</div></header>
+
+<main class="wrap">
+  <section class="hero" id="hero">
+    <h1>Consulta tus resultados</h1>
+    <p class="sub">Prueba de periodo · Grados 6.° a 10.° · Escribe tu nombre o tu apellido.</p>
+    <div class="search" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Por ejemplo: Pérez o María José" autocomplete="off" autocapitalize="words" spellcheck="false" aria-label="Nombre o apellido" aria-describedby="hint">
+    </div>
+    <p class="hint" id="hint" aria-live="polite">Escribe al menos 3 letras.</p>
+    <ul class="list" id="list"></ul>
+  </section>
+  <div id="res"></div>
+  <footer id="foot"></footer>
+</main>
+
+<script src="data.js?v=1"></script>
+<script>
+(() => {
+'use strict';
+const D = window.D, $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+const level = n => n < 60 ? 'Bajo' : n < 80 ? 'Básico' : n < 90 ? 'Alto' : 'Superior';
+const COL = {Bajo:'var(--bajo)','Básico':'var(--basico)',Alto:'var(--alto)',Superior:'var(--sup)'};
+const MAX = 25;
+
+const ALL = [];
+D.grados.forEach((g, gi) => g.st.forEach((s, si) => ALL.push({gi, si, name: s[0], grupo: s[1], n: norm(s[0])})));
+
+// Tema
+const root = document.documentElement;
+try { const t = localStorage.getItem('tema'); if (t) root.dataset.theme = t; } catch (e) {}
+$('#theme').onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('tema', root.dataset.theme); } catch (e) {}
+};
+
+const q = $('#q'), list = $('#list'), hint = $('#hint'), res = $('#res');
+const hl = (name, toks) => {
+  // resalta coincidencias sin perder tildes
+  const nn = norm(name); const mark = new Array(name.length).fill(false);
+  for (const t of toks) { let i = nn.indexOf(t); while (i >= 0) { for (let k = i; k < i + t.length; k++) mark[k] = true; i = nn.indexOf(t, i + 1); } }
+  let out = '', on = false;
+  [...name].forEach((ch, i) => { if (mark[i] !== on) { out += mark[i] ? '<mark>' : '</mark>'; on = mark[i]; } out += esc(ch); });
+  return out + (on ? '</mark>' : '');
+};
+
+function search() {
+  res.innerHTML = '';
+  const v = norm(q.value).trim(), toks = v.split(/\s+/).filter(Boolean);
+  if (v.replace(/\s/g, '').length < 3) { list.innerHTML = ''; hint.textContent = 'Escribe al menos 3 letras.'; return; }
+  const m = ALL.filter(s => toks.every(t => s.n.includes(t)));
+  if (!m.length) { list.innerHTML = ''; hint.textContent = 'No encontramos ese nombre. Revisa la escritura o prueba solo con un apellido.'; return; }
+  hint.textContent = m.length > MAX ? `${m.length} coincidencias. Escribe también tu otro nombre o apellido para acotar.` : m.length === 1 ? '1 coincidencia.' : `${m.length} coincidencias. Elige tu nombre.`;
+  list.innerHTML = m.slice(0, MAX).map(s => `<li><button type="button" data-k="${s.gi}.${s.si}"><span class="nm">${hl(s.name, toks)}</span><span class="gr">${D.grados[s.gi].g}.° · ${s.grupo === 'Sin grupo' ? 'Sin grupo' : 'Grupo ' + esc(s.grupo)}</span></button></li>`).join('');
+}
+
+function show(gi, si) {
+  const g = D.grados[gi], [name, grupo, ac, anul] = g.st[si];
+  let c = 0, t = 0;
+  const rows = g.areas.map(([a, ses, n], i) => {
+    if (anul.includes(ses)) { t += n; return `<div class="row"><span class="an">${esc(a)}</span><span class="rt"><b>0</b> <span class="muted">· Bajo</span></span><span class="muted" style="grid-column:1/-1">Sesión ${ses} anulada</span></div>`; }
+    if (ac[i] == null) return `<div class="row"><span class="an">${esc(a)}</span><span class="rt muted">—</span><span class="muted" style="grid-column:1/-1">No presentó la sesión ${ses}</span></div>`;
+    c += ac[i]; t += n;
+    const p = 100 * ac[i] / n, nt = Math.round(p), lv = level(nt);
+    return `<div class="row"><span class="an">${esc(a)}</span><span class="rt"><b>${nt}</b> <span class="pill lv-${lv}">${lv}</span></span><span class="muted">${ac[i]} de ${n} aciertos</span><span></span><div class="bar" aria-hidden="true"><i style="width:${p}%;background:${COL[lv]}"></i></div></div>`;
+  }).join('');
+  const tn = t ? Math.round(100 * c / t) : 0, tl = level(tn);
+  list.innerHTML = ''; hint.textContent = '';
+  $('#hero').hidden = true;
+  res.innerHTML = `<button class="back" type="button" id="back">← Nueva consulta</button>
+  <article class="card" aria-labelledby="sn">
+    <div class="ch"><div class="eyebrow">${g.g}.° ${esc(g.nm)} · ${grupo === 'Sin grupo' ? 'Sin grupo' : 'Grupo ' + esc(grupo)}</div>
+      <h2 id="sn">${esc(name)}</h2>
+      <div class="tot"><div class="big">${tn}<small> / 100</small></div><div><span class="pill lv-${tl}">${tl}</span><div class="tsub">Total: ${c} de ${t} aciertos</div></div></div></div>
+    <div class="rows">${rows}</div>
+    <div class="cf"><span>Escala 0–100 · Bajo 0–59 · Básico 60–79 · Alto 80–89 · Superior 90–100</span><button class="btn" type="button" id="print">Imprimir</button></div>
+  </article>`;
+  $('#back').onclick = () => { res.innerHTML = ''; $('#hero').hidden = false; q.value = ''; search(); q.focus(); };
+  $('#print').onclick = () => print();
+  scrollTo(0, 0);
+}
+
+q.addEventListener('input', search);
+list.addEventListener('click', e => { const b = e.target.closest('button[data-k]'); if (b) { const [gi, si] = b.dataset.k.split('.').map(Number); show(gi, si); } });
+const [y, m, d] = D.fecha.split('-');
+$('#foot').textContent = `Concentración Educativa del Sur de Montelíbano · Actualizado el ${+d}/${+m}/${y}. Si encuentras un error en tus resultados, consulta con tu director(a) de grupo.`;
+q.focus();
+})();
+</script>
+</body>
+</html>
